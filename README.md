@@ -30,6 +30,10 @@ Initial Flutter source implementation for existing Court Hub accounts. Uses Rive
 
 Flutter browser and Windows runners are included alongside Android and iOS. Browser builds use responsive Material layouts and can be installed as a PWA. Windows uses the same role workspaces with manual QR entry; Firebase push registration is intentionally disabled for browser and Windows targets until their Firebase setup is supplied.
 
+## Role-based user guides
+
+Step-by-step mobile and web guides for Super Admin, Court Owner, Facility Manager, Front Desk, Coach, Event Organizer, and Player are in [`../docs/user-guides/README.md`](../docs/user-guides/README.md). Use the guide that matches the role shown after sign-in.
+
 ## API base URLs
 
 | Target | Base URL |
