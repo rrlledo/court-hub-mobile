@@ -30,6 +30,15 @@ Initial Flutter source implementation for existing Court Hub accounts. Uses Rive
 
 Flutter browser and Windows runners are included alongside Android and iOS. Browser builds use responsive Material layouts and can be installed as a PWA. Windows uses the same role workspaces with manual QR entry; Firebase push registration is intentionally disabled for browser and Windows targets until their Firebase setup is supplied.
 
+## API base URLs
+
+| Target | Base URL |
+| --- | --- |
+| Local browser and Windows app | `http://127.0.0.1:8000/api/v1` |
+| Android emulator | `http://10.0.2.2:8000/api/v1` |
+| Staging | `https://api.staging.example.com/api/v1` (replace with the deployed hostname) |
+| Production | `https://api.example.com/api/v1` (replace with the deployed hostname) |
+
 ## Setup on Windows
 
 Install Flutter and the Android toolchain: https://docs.flutter.dev/install
@@ -43,6 +52,12 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000/api/v1
 ```
 
 The default URL targets a Laravel server on the Android emulator host. Start the existing backend before signing in. Physical devices need a reachable host address or HTTPS development endpoint. Never put tokens or provider secrets in dart defines. Release builds must use an HTTPS API URL.
+
+## Local, staging, and production environments
+
+Flutter uses `--dart-define-from-file`, not `.env` files. Run locally with `flutter run --dart-define-from-file=config/local.json`. Use `config/staging.json` for browser, Windows, or staging-device builds, and `config/production.json` for release builds after replacing the placeholder API URL with the deployed HTTPS endpoint. These files contain only public `API_BASE_URL` values; do not add credentials, tokens, payment secrets, or signing passwords. See [`../docs/ENVIRONMENTS.md`](../docs/ENVIRONMENTS.md) for the complete process and deployment requirements.
+
+Before distributing a live build, follow [`../docs/PRODUCTION_LAUNCH_REQUIREMENTS.md`](../docs/PRODUCTION_LAUNCH_REQUIREMENTS.md) for Firebase/APNs and store-account setup, current pricing, signing, production account requirements, and browser/Windows push-notification limitations.
 
 The repository now includes generated Android and iOS runners. Android release permissions for internet, camera scanning, and notifications are declared. Before a device build, place the Firebase-generated `google-services.json` in `android/app/` and `GoogleService-Info.plist` in `ios/Runner/`; both are ignored by Git. The Android Google Services plugin is configured and therefore Android builds correctly fail until `google-services.json` is present. Configure Android release signing in `android/key.properties` before distributing a release. For local HTTP testing, enable cleartext traffic only in an Android debug manifest. iOS builds require macOS/Xcode; configure camera usage text and Keychain entitlements for flutter_secure_storage and use HTTPS rather than broad transport-security exceptions.
 
